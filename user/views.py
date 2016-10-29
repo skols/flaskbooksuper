@@ -1,10 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, session
 from flask import url_for, abort
 import bcrypt
+import uuid  # Very useful for unique strings
 
 
 from user.models import User
 from user.forms import RegisterForm, LoginForm, EditForm
+from utilities.common import email
 
 
 # Name of the module_app tells is a naming convention for Blueprint apps
@@ -17,13 +19,23 @@ def register():
     if form.validate_on_submit():
         salt = bcrypt.gensalt()
         hashed_password = bcrypt.hashpw(form.password.data, salt)
+        code=str(uuid.uuid4())
         user = User(
             username=form.username.data,
             password=hashed_password,
             email=form.email.data,
             first_name=form.first_name.data,
-            last_name=form.last_name.data
+            last_name=form.last_name.data,
+            change_configuration={
+                "new_email": form.email.data.lower(),
+                "confirmation_code": code
+                }
             )
+        
+        # Email the user
+        body_html = render_template("mail/user/register.html", user=user)
+        body_text = render_template("mail/user/register.txt", user=user)
+        email(user.email, "Welcome to Flaskbook", body_html, body_text)
         user.save()
         return "User registered"
     return render_template("user/register.html", form=form)

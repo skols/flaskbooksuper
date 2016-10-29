@@ -13,6 +13,8 @@ class User(db.Document):
     last_name = db.StringField(db_field="ln", max_length=50)
     created = db.IntField(db_field="c", default=now())
     bio = db.StringField(db_field="b", max_length=160)
+    email_confirmed = db.BooleanField(db_field="ecf", default=False)
+    change_configuration = db.DictField(db_field="cc")
 
     # Make username and email all lowercase
     # This method is called before object is written to the database

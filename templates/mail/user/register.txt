@@ -3,6 +3,6 @@
 {% block body %}
 Hi {{ user.first_name }} and thanks for registering with Flaskbook!
 
-To confirm your registration, please click on this link:
-http://example.com/confirm/user
+To confirm your registration, please click on this link or copy and paste into your browser:
+{{ config.HOSTNAME }}/confirm/{{ user.username }}/{{ user.change_configuration.confirmation_code }}
 {% endblock %}
