@@ -1,0 +1,15 @@
+py-bcrypt is an implementation the OpenBSD Blowfish password hashing
+algorithm, as described in "A Future-Adaptable Password Scheme" by 
+Niels Provos and David Mazieres and related bcrypt-based key derivation
+function implemented in OpenBSD libutil.
+
+This system hashes passwords using a version of Bruce Schneier's
+Blowfish block cipher with modifications designed to raise the cost
+of off-line password cracking. The computation cost of the algorithm 
+is parametised, so it can be increased as computers get faster.
+
+Two interfaces are supported: a classic password hashing interface and
+a key derivation function (KDF) intended for generating cryptographic
+keys.
+
+
