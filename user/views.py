@@ -237,6 +237,10 @@ def change_password():
                 user.password = hashed_password
                 user.save()
                 
+                body_html = render_template("mail/user/password_change.html", user=user)
+                body_text = render_template("mail/user/password_change.txt", user=user)
+                email(user.email, "Password change request", body_html, body_text)
+                
                 # If user is logged in, log him/her out
                 if session.get("username"):
                     session.pop("username")
