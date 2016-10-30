@@ -95,24 +95,57 @@ def edit():
         form = EditForm(obj=user)  # Prepopulating the form with what's in user
         if form.validate_on_submit():
             # User changes their username
-            if user.username != form.username.data:
+            if user.username != form.username.data.lower():
                 if User.objects.filter(username=form.username.data.lower()).first():
                     error = "Username already exists"
                 else:
                     session["username"] = form.username.data.lower()
                     form.username.data = form.username.data.lower()
             # User changes their email
-            if user.email != form.email.data:
+            if user.email != form.email.data.lower():
                 if User.objects.filter(email=form.email.data.lower()).first():
                     error = "Email already exists"
                 else:
-                    form.email.data = form.email.data.lower()
+                    code = str(uuid.uuid4())
+                    user.change_configuration = {
+                        "new_email": form.email.data.lower(),
+                        "confirmation_code": code
+                    }
+                    user.email_confirmed = False
+                    form.email.data = user.email
+                    message = "You will need to confirm the new email address \
+                               complete this change."
+                    
+                    # email the user
+                    body_html = render_template("mail/user/change_email.html",
+                                                user=user)
+                    body_text = render_template("mail/user/change_email.txt",
+                                                user=user)
+                    email(user.change_configuration["new_email"],
+                          "Confirm your new email", body_html, body_text)
+                    
             if not error:
                 # Populate database object with form's content
                 form.populate_obj(user)
                 user.save()
-                message = "Profile updated"
+                if not message:
+                    message = "Profile updated"
+
         return render_template("user/edit.html", form=form, error=error,
                                message=message)
     else:  # User wasn't found
+        abort(404)
+
+
+@user_app.route("/confirm/<username>/<code>/", methods=["GET", "POST"])
+def confirm(username, code):
+    user = User.objects.filter(username=username).first()
+    if user and user.change_configuration and user.change_configuration.get("confirmation_code"):
+        if code == user.change_configuration.get("confirmation_code"):
+            user.email = user.change_configuration.get("new_email")
+            user.change_configuration = {}
+            user.email_confirmed = True
+            user.save()
+            return render_template("user/email_confirmed.html")
+    else:
         abort(404)

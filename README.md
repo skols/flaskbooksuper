@@ -245,4 +245,9 @@
 
 
 # Section 3 - Lecture 18 - User Registration Email Confirmation Code
-    - 
+    - Add settings.py to .gitignore file always
+
+
+# Section 3 - Lecture 19 - Confirmation Code Functionality
+
+

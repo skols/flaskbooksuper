@@ -3,7 +3,7 @@
 {% block body %}
 <p>Hi {{ user.first_name }} and thanks for registering with Flaskbook!</p>
 
-<p>To confirm your registration, please click on this link:</br>
+<p>To confirm your registration, please click on this link or copy and paste into your browser:</br>
 {{ config.HOSTNAME }}/confirm/{{ user.username }}/{{ user.change_configuration.confirmation_code }}
 </p>
 {% endblock %}
