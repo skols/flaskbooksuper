@@ -27,7 +27,7 @@ class BaseUserForm(Form):
                       )
 
 
-class RegisterForm(BaseUserForm):
+class PasswordBaseForm(BaseUserForm):
     password = PasswordField("New Password", [
         validators.DataRequired(),
         validators.EqualTo("confirm", message="Passwords must match"),
@@ -35,6 +35,8 @@ class RegisterForm(BaseUserForm):
     )
     confirm = PasswordField("Repeat Password")
 
+
+class RegisterForm(BaseUserForm, PasswordBaseForm):
     def validate_username(form, field):
         if User.objects.filter(username=field.data).first():
             raise ValidationError("Username already exists")
@@ -68,7 +70,8 @@ class ForgotForm(Form):
     )
 
 
-class PasswordResetForm(Form):
+class PasswordResetForm(PasswordBaseForm):
+    # Change password functionality
     current_password = PasswordField("Current Password",
         [validators.DataRequired(), validators.Length(min=4, max=80)]
     )

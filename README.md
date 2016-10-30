@@ -251,3 +251,16 @@
 # Section 3 - Lecture 19 - Confirmation Code Functionality
 
 
+# Section 3 - Lecture 20 - Confirmation Code Testing
+
+
+# Section 3 - Lecture 21 - Forgot and Reset Password
+    - To add multiple options to render_field, have to treat as kwargs with ** and then a dictionary or list
+    - Don't include the backslash. Using it here as an escape character
+        * {{ render_field(form.password, \**("class":'form-control', "aria-described-by": "passwordHelpBlock")) }}
+
+
+# Section 3 - Lecture 22 - Forgot and Reset Password Form Work
+
+
+
