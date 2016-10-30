@@ -5,7 +5,7 @@ import uuid  # Very useful for unique strings
 
 
 from user.models import User
-from user.forms import RegisterForm, LoginForm, EditForm
+from user.forms import RegisterForm, LoginForm, EditForm, ForgotForm
 from utilities.common import email
 
 
@@ -149,3 +149,29 @@ def confirm(username, code):
             return render_template("user/email_confirmed.html")
     else:
         abort(404)
+
+
+@user_app.route("/forgot/", methods=["GET", "POST"])
+def forgot():
+    error = None
+    message = None
+    form = ForgotForm()
+    if form.validate_on_submit():
+        user = User.objects.filter(email=form.email.data.lower()).first()
+        if user:
+            code = str(uuid.uuid4())
+            user.change_configuration = {
+                "password_reset_code": code
+            }
+            user.save()
+            
+            # Email the code to the user
+            body_html = render_template("mail/user/password_reset.html", user=user)
+            body_text = render_template("mail/user/password_reset.txt", user=user)
+            email(user.email, "Password reset request", body_html, body_text)
+
+        message = "You will receive a password reset email if we find that \
+                   email in our system"
+            
+    return render_template("user/forgot.html", form=form, error=error,
+                           message=message)
