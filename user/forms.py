@@ -27,7 +27,7 @@ class BaseUserForm(Form):
                       )
 
 
-class PasswordBaseForm(BaseUserForm):
+class PasswordBaseForm(Form):
     password = PasswordField("New Password", [
         validators.DataRequired(),
         validators.EqualTo("confirm", message="Passwords must match"),
