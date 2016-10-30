@@ -264,3 +264,17 @@
 
 
 
+# Section 3 - Lecture 23 - Forgot and Reset Password Views
+    - Create a function for hashing password because the same code is being repeated
+        * Good place for a function
+
+
+# Section 3 - Lecture 24 - Reset Password Tests
+
+
+# Section 3 - Lecture 25 - Change Password
+    - Homework - Create the email that gets sent when the password
+        * Body: Per your request your password has been changed. If you didn't request your password to be changed, please contact support immediately
+
+
+# Section 3 - Lecture 26 - Change Password Tests
