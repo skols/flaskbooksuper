@@ -114,7 +114,7 @@ def edit():
                     user.email_confirmed = False
                     form.email.data = user.email
                     message = "You will need to confirm the new email address \
-                               complete this change."
+                               to complete this change."
                     
                     # email the user
                     body_html = render_template("mail/user/change_email.html",
