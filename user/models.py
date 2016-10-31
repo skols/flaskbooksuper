@@ -1,8 +1,11 @@
 from mongoengine import signals
+from flask import url_for
+import os
 
 
 from application import db
 from utilities.common import utc_now_ts as now
+from settings import IMAGE_URL
 
 
 class User(db.Document):
@@ -15,6 +18,7 @@ class User(db.Document):
     bio = db.StringField(db_field="b", max_length=160)
     email_confirmed = db.BooleanField(db_field="ecf", default=False)
     change_configuration = db.DictField(db_field="cc")
+    profile_image = db.StringField(db_field="i", default=None)
 
     # Make username and email all lowercase
     # This method is called before object is written to the database
@@ -23,6 +27,12 @@ class User(db.Document):
     def pre_save(cls, sender, document, **kwargs):
         document.username = document.username.lower()
         document.email = document.email.lower()
+        
+    def profile_imgsrc(self, size):
+        # return os.path.join(IMAGE_URL, "user", "%s.%s.%s.png" % (self.id,
+        #                     self.profile_image, size))
+        return os.path.join(IMAGE_URL, "user", "{0}.{1}.{2}.png".format(self.id,
+                            self.profile_image, size))
 
     # Add indexes
     meta = {

@@ -155,13 +155,13 @@ class UserTest(unittest.TestCase):
             password=self.user_dict()["password"]
             ))
             
-        # Try to save same email
+        # Try to save existing email
         user = self.user_dict()
         user["email"] = "test@example.com"
         rv = self.app.post("/edit/", data=user)
         assert "Email already exists" in str(rv.data)
         
-        # Try to save same username
+        # Try to save existing username
         user = self.user_dict()
         user["username"] = "TestUsername"
         rv = self.app.post("/edit/", data=user)

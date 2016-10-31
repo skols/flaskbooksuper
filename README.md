@@ -278,3 +278,22 @@
 
 
 # Section 3 - Lecture 26 - Change Password Tests
+
+
+# Section 3 - Lecture 27 - Image Uploading Setup
+    - imagemagic - Server package so have to install use "sudo apt-get ..." on Cloud9
+        * sudo apt-get update
+        * sudo apt-get install imagemagick libmagickcore-dev
+    - Add Wand==0.4.2 to requirements.txt
+    - Test both are properly installed
+        $ python manage.py shell
+        \>>> from wand.image import Image
+        \>>> with Image(filename="static/assets/flaskbook-logo-sm.png") as img:
+        ...    print(img.size)
+        ...
+        (82, 20)
+        * If get the above when in the shell, properly installed
+    - Add two lines to settings.py
+        * UPLOAD_FOLDER = "/home/ubuntu/workspace/flaskbook/static/images"
+        * STATIC_IMAGE_URL = "images"
+            - The folder name and url name have to be equal, i.e. images here
