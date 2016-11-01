@@ -6,7 +6,7 @@ from utilities.common import utc_now_ts as now
 from settings import UPLOAD_FOLDER
 
 
-def thumbail_process(file, content_type, content_id, sizes=[("sm", 50), ("lg", 75), ("xlg", 200)]):
+def thumbnail_process(file, content_type, content_id, sizes=[("sm", 50), ("lg", 75), ("xlg", 200)]):
     image_id = now()
     filename_template = content_id + "{0}.{1}.png"
     

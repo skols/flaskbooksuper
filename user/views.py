@@ -2,12 +2,16 @@ from flask import Blueprint, render_template, request, redirect, session
 from flask import url_for, abort
 import bcrypt
 import uuid  # Very useful for unique strings
+import os
+from werkzeug import secure_filename
 
 
 from user.models import User
 from user.forms import RegisterForm, LoginForm, EditForm, ForgotForm
 from user.forms import PasswordResetForm
 from utilities.common import email
+from settings import UPLOAD_FOLDER
+from utilities.imaging import thumbnail_process
 
 
 # Name of the module_app tells is a naming convention for Blueprint apps
@@ -79,7 +83,7 @@ def profile(username):
     edit_profile = False
     user = User.objects.filter(username=username).first()
     # Check if looking at own profile page and if so, set edit_profile to True
-    if session.get("username") and user.username == session.get("username"):
+    if user and session.get("username") and user.username == session.get("username"):
         edit_profile = True
     if user:
         return render_template("user/profile.html", user=user, edit_profile=edit_profile)
@@ -95,6 +99,14 @@ def edit():
     if user:
         form = EditForm(obj=user)  # Prepopulating the form with what's in user
         if form.validate_on_submit():
+            # Check if image
+            image_ts = None
+            if request.files.get("image"):
+                filename = secure_filename(form.image.data.filename)
+                file_path = os.path.join(UPLOAD_FOLDER, "user", filename)
+                form.image.data.save(file_path)
+                image_ts = str(thumbnail_process(file_path, "user",
+                               str(user.id)))
             # User changes their username
             if user.username != form.username.data.lower():
                 if User.objects.filter(username=form.username.data.lower()).first():
@@ -128,12 +140,15 @@ def edit():
             if not error:
                 # Populate database object with form's content
                 form.populate_obj(user)
+                # Add image if it exists
+                if image_ts:
+                    user.profile_image = image_ts
                 user.save()
                 if not message:
                     message = "Profile updated"
 
         return render_template("user/edit.html", form=form, error=error,
-                               message=message)
+                               message=message, user=user)
     else:  # User wasn't found
         abort(404)
 

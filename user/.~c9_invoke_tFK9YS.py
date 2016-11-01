@@ -5,7 +5,7 @@ import os
 
 from application import db
 from utilities.common import utc_now_ts as now
-from settings import STATIC_IMAGE_URL
+from settings import STATICIMAGE_URL
 
 
 class User(db.Document):
@@ -29,9 +29,9 @@ class User(db.Document):
         document.email = document.email.lower()
         
     def profile_imgsrc(self, size):
-        # return os.path.join(IMAGE_URL, "user", "%s%s.%s.png" % (self.id,
+        # return os.path.join(IMAGE_URL, "user", "%s.%s.%s.png" % (self.id,
         #                     self.profile_image, size))
-        return os.path.join(STATIC_IMAGE_URL, "user", "{0}{1}.{2}.png".format(self.id,
+        return os.path.join(IMAGE_URL, "user", "{0}.{1}.{2}.png".format(self.id,
                             self.profile_image, size))
 
     # Add indexes
