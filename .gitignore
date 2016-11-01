@@ -1,2 +1,6 @@
 settings.py
 settings.py.bak
+*.png
+*.gif
+*.jpg
+*.jpeg
