@@ -90,7 +90,7 @@
         * Add it so what's in the folder is importable
 
 
-# Section 3 - Lecture 1 - Creating the User Model
+# Section 3 - Lecture 7 - Creating the User Model
     - db_field is the name of that field in the actual document; use a single letter or very few
         * Do that because the full field name will take a lot of data if there are tons of records
         * Saves a lot of characters
@@ -116,7 +116,7 @@
             ObjectId('580cf1cc2684030f4d42dbca')
 
 
-# Section 3 - Lecture 2 - Adding Indexes
+# Section 3 - Lecture 8 - Adding Indexes
     - To show indexes in MongoDB shell
         \> db.user.getIndexes()
     - After changing model (adding fields, indexes, etc.), need to go in Python shell and create a new user
@@ -127,15 +127,15 @@
             * explain() gives more information and lets you see if an index is used
 
 
-# Section 3 - Lecture 3 - The User Register Form
+# Section 3 - Lecture 9 - The User Register Form
     - db.user.drop() to delete existing MongoDB data
 
 
-# Section 3 - Lecture 4 - User Registration
+# Section 3 - Lecture 10 - User Registration
     - Add py-bcrypt to requirements.txt and install
 
 
-# Section 3 - Lecture 5 - Setting Up Unit Testing
+# Section 3 - Lecture 11 - Setting Up Unit Testing
     - Unit Testing Guidelines
         * All tests should be automated; little as possible manual work to run the tests
         * All tests should be independent of each other
@@ -143,12 +143,12 @@
         * Tests should be maintainable; constantly working on and making them better
 
 
-# Section 3 - Lecture 6 - User Registration Unit Testing
+# Section 3 - Lecture 12 - User Registration Unit Testing
     - Run tests.py that's in the main folder
         $ python tests.py
 
 
-# Section 3 - Lecture 7 - User Login
+# Section 3 - Lecture 13 - User Login
     - If you don't properly shutdown Mongo, you have restart
     - The instructor created a "mongo_restart" script
         * Put in the project's root directory, i.e. flaskbook
@@ -157,35 +157,35 @@
             $ ./mongo_restart
 
 
-# Section 3 - Lecture 8 - User Login Testing
+# Section 3 - Lecture 14 - User Login Testing
 
 
-# Section 3 - Lecture 9 - Navbar and Starting User Profile
+# Section 3 - Lecture 15 - Navbar and Starting User Profile
 
 
-# Section 3 - Lecture 10 - User Profile
+# Section 3 - Lecture 16 - User Profile
 
 
-# Section 3 - Lecture 11 - Check Username Format with Regular Expressions
+# Section 3 - Lecture 17 - Check Username Format with Regular Expressions
     - ^ is beginning of string, $ is end of string
     - re.match("^[a-zA-Z0-9_-]{4,25}$"
         * lowercase, uppercase, numbers, underscore, dash, min length of 4, max of 25
 
 
-# Section 3 - Lecture 12 - Edit Profile Form and Model
+# Section 3 - Lecture 18 - Edit Profile Form and Model
     - import signals from mongoengine
     - Add pre_save function
         * pre_save always has the same arguments: cls, sender, document, kwargs
     - Add blinker to requirements.txt
 
 
-# Section 3 - Lecture 13 - Edit Profile Views and Templates
+# Section 3 - Lecture 19 - Edit Profile Views and Templates
 
 
-# Section 3 - Lecture 14 - Edit Profile Tests
+# Section 3 - Lecture 20 - Edit Profile Tests
 
 
-# Section 3 - Lecture 15 - Introduction to AWS SES
+# Section 3 - Lecture 21 - Introduction to AWS SES
     - SES = Simple Email Service
     - Go to Services and select IAM
         * Allows you to create users
@@ -204,7 +204,7 @@
         * It's the region you have to put in the application
 
 
-# Section 3 - Lecture 16 - Implementing Email Templates
+# Section 3 - Lecture 22 - Implementing Email Templates
     - Add boto3 to requirements.txt
     - Create a new directory from project's root, ~/.aws
     - Create a new file in there called credentials, e.g. touch ~/.aws/credentials
@@ -227,7 +227,7 @@
        \>>> email("cluepyre@mailinator.com", "Welcomd to Flaskbook", body_html, body_text)
 
 
-# Section 3 - Lecture 17 - Increasing Sending Limits in AWS SES
+# Section 3 - Lecture 23 - Increasing Sending Limits in AWS SES
     - Go to AWS management console
     - Click SES
     - Click Sending Statistics under "Email Sending"
@@ -244,43 +244,42 @@
     - Submit and wait
 
 
-# Section 3 - Lecture 18 - User Registration Email Confirmation Code
+# Section 3 - Lecture 24 - User Registration Email Confirmation Code
     - Add settings.py to .gitignore file always
 
 
-# Section 3 - Lecture 19 - Confirmation Code Functionality
+# Section 3 - Lecture 25 - Confirmation Code Functionality
 
 
-# Section 3 - Lecture 20 - Confirmation Code Testing
+# Section 3 - Lecture 26 - Confirmation Code Testing
 
 
-# Section 3 - Lecture 21 - Forgot and Reset Password
+# Section 3 - Lecture 27 - Forgot and Reset Password
     - To add multiple options to render_field, have to treat as kwargs with ** and then a dictionary or list
     - Don't include the backslash. Using it here as an escape character
         * {{ render_field(form.password, \**("class":'form-control', "aria-described-by": "passwordHelpBlock")) }}
 
 
-# Section 3 - Lecture 22 - Forgot and Reset Password Form Work
+# Section 3 - Lecture 28 - Forgot and Reset Password Form Work
 
 
-
-# Section 3 - Lecture 23 - Forgot and Reset Password Views
+# Section 3 - Lecture 29 - Forgot and Reset Password Views
     - Create a function for hashing password because the same code is being repeated
         * Good place for a function
 
 
-# Section 3 - Lecture 24 - Reset Password Tests
+# Section 3 - Lecture 30 - Reset Password Tests
 
 
-# Section 3 - Lecture 25 - Change Password
+# Section 3 - Lecture 31 - Change Password
     - Homework - Create the email that gets sent when the password
         * Body: Per your request your password has been changed. If you didn't request your password to be changed, please contact support immediately
 
 
-# Section 3 - Lecture 26 - Change Password Tests
+# Section 3 - Lecture 32 - Change Password Tests
 
 
-# Section 3 - Lecture 27 - Image Uploading Setup
+# Section 3 - Lecture 33 - Image Uploading Setup
     - imagemagic - Server package so have to install use "sudo apt-get ..." on Cloud9
         * sudo apt-get update
         * sudo apt-get install imagemagick libmagickcore-dev
@@ -297,3 +296,40 @@
         * UPLOAD_FOLDER = "/home/ubuntu/workspace/flaskbook/static/images"
         * STATIC_IMAGE_URL = "images"
             - The folder name and url name have to be equal, i.e. images here
+
+
+# Section 3 - Lecture 34 - The Imaging Library
+
+
+# Section 3 - Lecture 35 - The Edit Form and Template for Image
+
+
+# Section 3 - Lecture 36 - The Edit View for Imaging
+
+
+# Section 3 - Lecture 37 - Setting up Amazon S3
+    - Amazon will host all the images
+    - Go to AWS, then Services, then S3
+    - Click Create Bucket
+        * Bucket Name: flaskbookms (names have to be unique as they shared by all users in the system)
+        * Region: Oregon (same as everything else so far; could be different email or other things are)
+    - Create folder
+        * user
+    - Add two lines to settings.py
+        * AWS_BUCKET = "flaskbookms" (or whatever the bucket name is)
+        * AWS_CONTENT_URL = "https://s3-us-west-2.amazonaws.com"
+    - Attach another policy to the mailer user so can use S3
+        * Services then IAM
+        * Click users
+        * Click mailer (or whatever the user was)
+        * Click Attach Policy
+        * Filter for S3 and select AmazonS3FullAccess, then click Attach Policy
+    - Make settings.py look like this for when working in development environment
+        * # Production Environment
+        * # AWS_BUCKET = "flaskbookms"
+        * # AWS_CONTENT_URL = "https://s3-us-west-2.amazonaws.com"
+
+        * # Development Environment
+        * AWS_BUCKET = ""
+        * AWS_CONTENT_URL = ""
+    - If in Production, comment out the development section. If in Development, comment out production.

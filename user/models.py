@@ -5,7 +5,7 @@ import os
 
 from application import db
 from utilities.common import utc_now_ts as now
-from settings import STATIC_IMAGE_URL
+from settings import STATIC_IMAGE_URL, AWS_BUCKET, AWS_CONTENT_URL
 
 
 class User(db.Document):
@@ -31,8 +31,14 @@ class User(db.Document):
     def profile_imgsrc(self, size):
         # return os.path.join(IMAGE_URL, "user", "%s%s.%s.png" % (self.id,
         #                     self.profile_image, size))
-        return os.path.join(STATIC_IMAGE_URL, "user", "{0}{1}.{2}.png".format(self.id,
-                            self.profile_image, size))
+        if AWS_BUCKET:
+            return os.path.join(AWS_CONTENT_URL, AWS_BUCKET, "user", 
+                                "{0}{1}.{2}.png".format(self.id,
+                                self.profile_image, size))
+        else:
+            return url_for("static", filename=os.path.join(STATIC_IMAGE_URL,
+                           "user", "{0}{1}.{2}.png".format(self.id,
+                           self.profile_image, size)))
 
     # Add indexes
     meta = {
