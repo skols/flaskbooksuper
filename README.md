@@ -333,3 +333,18 @@
         * AWS_BUCKET = ""
         * AWS_CONTENT_URL = ""
     - If in Production, comment out the development section. If in Development, comment out production.
+
+
+# Section 4 - Lecture 38 - Starting the Relationship App
+
+
+# Section 4 - Lecture 39 - Playing with the Relationship Model
+    - Create some users and then enter the python shell
+        $ python manage.py shell
+        \>>> from user.models import *
+        \>>> from relationship.models import *
+        \>>> user1 = User.objects.get(username="michael")
+        \>>> user2 = User.objects.get(username="javier")
+        \>>> friends = Relationship(from_user=user1, to_user=user2, rel_type=Relationship.FRIENDS, status=Relationship.PENDING).save()
+        \>>> rel = Relationship.objects.first()
+        \>>> rel.to_json()
