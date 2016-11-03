@@ -13,6 +13,7 @@ from utilities.common import email
 from settings import UPLOAD_FOLDER
 from utilities.imaging import thumbnail_process
 from relationship.models import Relationship
+from user.decorators import login_required
 
 
 # Name of the module_app tells is a naming convention for Blueprint apps
@@ -98,6 +99,7 @@ def profile(username):
 
 
 @user_app.route("/edit/", methods=["GET", "POST"])
+@login_required
 def edit():
     error = None
     message = None

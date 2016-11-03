@@ -374,3 +374,7 @@
 # Section 4 - Lecture 41 - The Relationship Frontend
     - jQuery used, mainly for hovering
         * See if can be refactored using CSS or something else
+
+
+# Section 4 - Lecture 42 - Relationship Views
+    - Adding decorators.py to user and creating login_required function
