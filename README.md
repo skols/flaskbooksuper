@@ -369,6 +369,7 @@
         \>>> friends.save()
         \>>> Relationship.get_relationship(user1, user2)
             "BLOCKED"
+    - After reading about it, try refactoring the staticmethod as a classmethod
 
 
 # Section 4 - Lecture 41 - The Relationship Frontend
@@ -378,3 +379,8 @@
 
 # Section 4 - Lecture 42 - Relationship Views
     - Adding decorators.py to user and creating login_required function
+
+
+# Section 4 - Lecture 43 - More Work on Relationship Views
+    - Edited add_friend
+    - Added remove_friend, block, unblock
