@@ -369,3 +369,8 @@
         \>>> friends.save()
         \>>> Relationship.get_relationship(user1, user2)
             "BLOCKED"
+
+
+# Section 4 - Lecture 41 - The Relationship Frontend
+    - jQuery used, mainly for hovering
+        * See if can be refactored using CSS or something else
