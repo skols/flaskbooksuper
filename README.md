@@ -348,3 +348,24 @@
         \>>> friends = Relationship(from_user=user1, to_user=user2, rel_type=Relationship.FRIENDS, status=Relationship.PENDING).save()
         \>>> rel = Relationship.objects.first()
         \>>> rel.to_json()
+
+
+# Section 4 - Lecture 40 - Get Relationship Helper
+    - Add a static method to models.py; get_relationship
+    - Go into the python shell
+        \>>> from user.models import *
+        \>>> from relationship.models import *
+        \>>> Relationship.objects.delete()
+        \>>> user1 = User.objects.get(username="michael")
+        \>>> user2 = User.objects.get(username="javier")
+        \>>> friends = Relationship(from_user=user1, to_user=user2, rel_type=Relationship.FRIENDS, status=Relationship.APPROVED).save()
+        \>>> Relationship.get_relationship(user1, user2)
+            "FRIENDS_APPROVED"
+        \>>> friends.status=Relationship.PENDING
+        \>>> friends.save()
+        \>>> Relationship.get_relationship(user1, user2)
+            "FRIENDS_PENDING"
+        \>>> friends.rel_type=Relationship.BLOCKED
+        \>>> friends.save()
+        \>>> Relationship.get_relationship(user1, user2)
+            "BLOCKED"
