@@ -384,3 +384,6 @@
 # Section 4 - Lecture 43 - More Work on Relationship Views
     - Edited add_friend
     - Added remove_friend, block, unblock
+
+
+# Section 4 - Lecture 44 - Complete Relationship Frontend
