@@ -8,7 +8,7 @@ from user.decorators import login_required
 
 relationship_app = Blueprint("relationship_app", __name__)
 
-@relationship_app.route("/add_friend/<to_username>")  # Always GET
+@relationship_app.route("/add_friend/<to_username>/")  # Always GET
 @login_required
 def add_friend(to_username):
     logged_user = User.objects.filter(username=session.get("username")).first()
@@ -43,7 +43,7 @@ def add_friend(to_username):
         abort(404)
 
 
-@relationship_app.route("/remove_friend/<to_username>")
+@relationship_app.route("/remove_friend/<to_username>/")
 @login_required
 def remove_friend(to_username):
     logged_user = User.objects.filter(username=session.get("username")).first()
@@ -64,7 +64,7 @@ def remove_friend(to_username):
         abort(404)
 
 
-@relationship_app.route("/block/<to_username>")
+@relationship_app.route("/block/<to_username>/")
 @login_required
 def block(to_username):
     logged_user = User.objects.filter(username=session.get("username")).first()
@@ -91,7 +91,7 @@ def block(to_username):
         abort(404)
 
 
-@relationship_app.route("/unblock/<to_username>")
+@relationship_app.route("/unblock/<to_username>/")
 @login_required
 def unblock(to_username):
     logged_user = User.objects.filter(username=session.get("username")).first()
