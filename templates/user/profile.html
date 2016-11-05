@@ -110,37 +110,26 @@
         
       </div> <!-- col-md-9 -->
     
-      <div class="col-md-3">
+      <div class="col-md-3"> <!-- Friends sidebar-->
 
-        <h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Friends <span class="badge">4</span></h4>
+        <h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Friends <span class="badge"> {{ friends_total }}</span></h4>
         
+        {% for friend in friends %}
         <div class="media">
           <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="//placehold.it/50x50" width="50" heigh="50" alt="{{ user.username }}">
+            <a class="img-thumbnail" href="{{ url_for('.profile', username=friend.to_user.username) }}">
+              <img class="media-object" src="{{ friend.to_user.profile_imgsrc('sm') }}" width="50" height="50" alt="{{ friend.to_user.username }}">
             </a>
           </div>
           <div class="media-body">
-            <p>Luis Escobar<br />
-              <a href="#">@luis</a>
+            <p>{{ friend.to_user.first_name }}<br />
+              <a href="{{ url_for('.profile', username=friend.to_user.username) }}">@{{ friend.to_user.username }}</a>
             </p>
           </div>
         </div> <!-- media -->
+        {% endfor %}
 
-        <div class="media">
-          <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="//placehold.it/50x50" width="50" heigh="50" alt="{{ user.username }}">
-            </a>
-          </div>
-          <div class="media-body">
-            <p>Luis Escobar<br />
-              <a href="#">@luis</a>
-            </p>
-          </div>
-        </div> <!-- media -->
-
-      </div> <!-- col-md-3 -->
+      </div> <!-- Friends sidebar -->
       
     </div> <!-- row -->
     

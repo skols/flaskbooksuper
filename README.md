@@ -397,3 +397,6 @@
 
 # Section 4 - Lecture 47 - Adding a Profile Image
     - Add to user.models to allow for default pictures if user hasn't uplaoded
+
+
+# Section 4 - Lecture 48 - The Friends Sidebar

@@ -74,26 +74,42 @@ def login():
     return render_template("user/login.html", form=form, error=error)
 
 
-@user_app.route("/logout/", methods=["GET", "POST"])
+@user_app.route("/logout/")
 def logout():
     session.pop("username")
     return redirect(url_for("user_app.login"))
 
 
-@user_app.route("/<username>/", methods=["GET", "POST"])
+@user_app.route("/<username>/")
 def profile(username):
+    logged_user = None
     edit_profile = False
     rel = None
     user = User.objects.filter(username=username).first()
-    # Check if looking at own profile page and if so, set edit_profile to True
-    if user and session.get("username") and user.username == session.get("username"):
-        edit_profile = True
+    
     if user:
         if session.get("username"):
             logged_user = User.objects.filter(username=session.get("username")).first()
             rel=Relationship.get_relationship(logged_user, user)
+        # Check if looking at own profile page and if so, set edit_profile to True
+        if user and session.get("username") and user.username == session.get("username"):
+            edit_profile = True
+            
+        # Get friends
+        friends = Relationship.objects.filter(
+            from_user=user,
+            rel_type=Relationship.FRIENDS,
+            status=Relationship.APPROVED
+        )
+        friends_total = friends.count()
+        
         return render_template("user/profile.html", user=user, rel=rel,
-                               edit_profile=edit_profile)
+                               logged_user=logged_user,
+                               edit_profile=edit_profile,
+                               friends=friends,
+                               friends_total=friends_total,
+                               )
+
     else:  # Don't find the user
         abort(404)
 
