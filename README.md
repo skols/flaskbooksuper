@@ -390,3 +390,10 @@
 
 
 # Section 4 - Lecture 45 - Relationship Tests Part 1
+
+
+# Section 4 - Lecture 46 - Relationship Tests Part 2
+
+
+# Section 4 - Lecture 47 - Adding a Profile Image
+    - Add to user.models to allow for default pictures if user hasn't uplaoded

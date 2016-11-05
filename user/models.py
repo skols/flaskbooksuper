@@ -31,14 +31,18 @@ class User(db.Document):
     def profile_imgsrc(self, size):
         # return os.path.join(IMAGE_URL, "user", "%s%s.%s.png" % (self.id,
         #                     self.profile_image, size))
-        if AWS_BUCKET:
-            return os.path.join(AWS_CONTENT_URL, AWS_BUCKET, "user", 
-                                "{0}{1}.{2}.png".format(self.id,
-                                self.profile_image, size))
-        else:
-            return url_for("static", filename=os.path.join(STATIC_IMAGE_URL,
-                           "user", "{0}{1}.{2}.png".format(self.id,
+        if self.profile_image:
+            if AWS_BUCKET:
+                return os.path.join(AWS_CONTENT_URL, AWS_BUCKET, "user", 
+                                    "{0}{1}.{2}.png".format(self.id,
+                                    self.profile_image, size))
+            else:
+                return url_for("static", filename=os.path.join(STATIC_IMAGE_URL,
+                               "user", "{0}{1}.{2}.png".format(self.id,
                            self.profile_image, size)))
+        else:
+            return url_for("static", filename=os.path.join(STATIC_IMAGE_URL, 
+                           "user", "no-profile.{0}.png".format(size)))
 
     # Add indexes
     meta = {
