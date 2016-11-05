@@ -1,9 +1,11 @@
 from flask import Blueprint, abort, session, redirect, url_for, request
+from flask import render_template
 
 
 from user.models import User
 from relationship.models import Relationship
 from user.decorators import login_required
+from utilities.common import email
 
 
 relationship_app = Blueprint("relationship_app", __name__)
@@ -39,6 +41,20 @@ def add_friend(to_username):
                 rel_type=Relationship.FRIENDS,
                 status=Relationship.PENDING
                 ).save()
+            
+            # Email the user
+            body_html = render_template("mail/relationship/added_friend.html",
+                                        from_user=logged_user,
+                                        to_user=to_user,
+                                        )
+            body_text = render_template("mail/relationship/added_friend.txt",
+                                        from_user=logged_user,
+                                        to_user=to_user,
+                                        )
+            email(to_user.email,
+                  "{0} has requested to be friends".format(logged_user.first_name),
+                  body_html, body_text)
+
         return redirect(ref)
     else:
         abort(404)
