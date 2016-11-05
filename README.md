@@ -404,3 +404,6 @@
 
 # Section 4 - Lecture 49 - The Friends Page
     - Refactor profile.html so friends part in different html file?
+
+
+# Section 4 - Lecture 50 - Reusable Follow Button

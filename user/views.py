@@ -85,8 +85,8 @@ def logout():
 @user_app.route("/<username>/friends/", endpoint="profile-friends")
 @user_app.route("/<username>/")
 def profile(username, page=1):
+    # Removed everything with edit_profile variable because it isn't needed
     logged_user = None
-    edit_profile = False
     rel = None
     friends_page = False
     user = User.objects.filter(username=username).first()
@@ -95,9 +95,6 @@ def profile(username, page=1):
         if session.get("username"):
             logged_user = User.objects.filter(username=session.get("username")).first()
             rel=Relationship.get_relationship(logged_user, user)
-        # Check if looking at own profile page and if so, set edit_profile to True
-        if user and session.get("username") and user.username == session.get("username"):
-            edit_profile = True
             
         # Get friends
         friends = Relationship.objects.filter(
@@ -116,7 +113,6 @@ def profile(username, page=1):
         
         return render_template("user/profile.html", user=user, rel=rel,
                                logged_user=logged_user,
-                               edit_profile=edit_profile,
                                friends=friends,
                                friends_total=friends_total,
                                friends_page=friends_page,
