@@ -14,3 +14,4 @@ STATIC_IMAGE_URL = "images"
 # Development Environment
 AWS_BUCKET = ""
 AWS_CONTENT_URL = ""
+AWS_SEND_MAIL = False

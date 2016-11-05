@@ -80,11 +80,15 @@ def logout():
     return redirect(url_for("user_app.login"))
 
 
+# Use endpoint in url_for
+@user_app.route("/<username>/friends/<int:page>/")
+@user_app.route("/<username>/friends/", endpoint="profile-friends")
 @user_app.route("/<username>/")
-def profile(username):
+def profile(username, page=1):
     logged_user = None
     edit_profile = False
     rel = None
+    friends_page = False
     user = User.objects.filter(username=username).first()
     
     if user:
@@ -103,11 +107,19 @@ def profile(username):
         )
         friends_total = friends.count()
         
+        if "friends" in request.url:
+            friends_page = True
+            friends = friends.paginate(page=page, per_page=3)
+            # paginate is a mongoengine helper
+        else:
+            friends = friends[:5]
+        
         return render_template("user/profile.html", user=user, rel=rel,
                                logged_user=logged_user,
                                edit_profile=edit_profile,
                                friends=friends,
                                friends_total=friends_total,
+                               friends_page=friends_page,
                                )
 
     else:  # Don't find the user
