@@ -12,6 +12,8 @@ class Relationship(db.Document):
     BLOCKED = -1
     
     # Set up choices; tuple of tuples
+    # Choices limit the number of options a field can have.
+    # Choices allows to provide a list to be associated with the field's values.
     RELATIONSHIP_TYPE = (
         (FRIENDS, "Friends"),
         (BLOCKED, "Blocked"),
@@ -44,7 +46,8 @@ class Relationship(db.Document):
         else:
             return None
     
-    # When it doesn't have anything to do with a specific record
+    # A static method doesn't need an instance of the class to be used.
+    # A static method allows to use it globally on the class.
     # Get relationship from two users
     @staticmethod
     def get_relationship(from_user, to_user):
