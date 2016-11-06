@@ -12,9 +12,9 @@ class Message(db.Document):
     to_user = db.ReferenceField(User, db_field="tu", default=None,
                                   reverse_delete_rule=CASCADE)
     text = db.StringField(db_field="t", max_length=1024)
-    live = db.Boolean(db_field="l", default=None)
+    live = db.BooleanField(db_field="l", default=None)
     create_date = db.IntField(db_field="c", default=now())
-    parent = db.ObjectField(db_field="p", default=None)
+    parent = db.ObjectIdField(db_field="p", default=None)
     image = db.StringField(db_field="i", default=None)
     
     meta = {
@@ -26,7 +26,7 @@ class Feed(db.Document):  # Representation of messages per user
     user = db.ReferenceField(User, db_field="u", reverse_delete_rule=CASCADE)
     message = db.ReferenceField(Message, db_field="m",
                                 reverse_delete_rule=CASCADE)
-    parent = db.ObjectField(db_field="p", default=None)
+    parent = db.ObjectIdField(db_field="p", default=None)
     create_date = db.IntField(db_field="c", default=now())
     
     meta = {
