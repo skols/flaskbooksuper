@@ -410,3 +410,9 @@
 
 
 # Section 4 - Lecture 51 - Friend Pagination and Relationship Emails
+
+
+# Section 5 - Lecture 52 - Introduction to the Fan Out pattern
+
+
+# Section 5 - Lecture 53 - The Feed Model
