@@ -4,6 +4,7 @@ from mongoengine import CASCADE
 from application import db
 from utilities.common import utc_now_ts as now
 from user.models import User
+from utilities.common import linkify, ms_stamp_humanize
 
 
 class Message(db.Document):
@@ -16,6 +17,14 @@ class Message(db.Document):
     create_date = db.IntField(db_field="c", default=now())
     parent = db.ObjectIdField(db_field="p", default=None)
     image = db.StringField(db_field="i", default=None)
+    
+    @property
+    def text_linkify(self):
+        return linkify(self.text)
+    
+    @property
+    def human_timestamp(self):
+        return ms_stamp_humanize(self.create_date)
     
     meta = {
         "indexes": [("from_user", "to_user", "-create_date", "parent", "live")]
