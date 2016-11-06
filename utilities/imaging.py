@@ -16,7 +16,8 @@ def thumbnail_process(file, content_type, content_id, sizes=[("sm", 50), ("lg", 
     with Image(filename=file) as img:
         crop_center(img)
         img.format = "png"
-        img.save(filename=os.path.join(UPLOAD_FOLDER, content_type, filename_template.format(image_id, "raw")))
+        img.save(filename=os.path.join(UPLOAD_FOLDER, content_type,
+                 filename_template.format(image_id, "raw")))
 
     # Sizes
     for (name, size) in sizes:
@@ -24,7 +25,8 @@ def thumbnail_process(file, content_type, content_id, sizes=[("sm", 50), ("lg", 
             crop_center(img)
             img.sample(size, size)
             img.format = "png"
-            img.save(filename=os.path.join(UPLOAD_FOLDER, content_type, filename_template.format(image_id, name)))
+            img.save(filename=os.path.join(UPLOAD_FOLDER, content_type,
+                     filename_template.format(image_id, name)))
 
     # AWS
     if AWS_BUCKET:
@@ -68,3 +70,55 @@ def crop_center(image):
         width=int(wh),
         height=int(wh)
     )
+
+
+def image_height_transform(file, content_type, content_id, height=200):
+    image_id=now()
+    filename_template = content_id + "{0}.{1}.png"
+    
+    # Original
+    with Image(filename=file) as img:
+        img.format = "png"
+        img.save(filename=os.path.join(UPLOAD_FOLDER, content_type,
+                 filename_template.format(image_id, "raw")))
+
+    # Resized
+    img_width = None
+    with Image(filename=file) as img:
+        img.transform(resize="x" + str(height))
+        img.format = "png"
+        img.save(filename=os.path.join(UPLOAD_FOLDER, content_type,
+                 filename_template.format(image_id, "xlg")))
+        img_width = img.width
+    
+        # AWS
+    if AWS_BUCKET:
+        s3 = boto3.client("s3")
+        transfer = S3Transfer(s3)
+        transfer.upload_file(
+            os.path.join(UPLOAD_FOLDER, content_type,
+            filename_template.format(image_id, "raw")),
+            AWS_BUCKET,
+            os.path.join(content_type,
+            filename_template.format(image_id, "raw")),
+            extra_args={"ACL": "public-read", "ContentType": "image/png"}
+            )
+        # Remove from local since on S3
+        os.remove(os.path.join(UPLOAD_FOLDER, content_type,
+                  filename_template.format(image_id, "raw")))
+        
+        transfer.upload_file(
+            os.path.join(UPLOAD_FOLDER, content_type,
+            filename_template.format(image_id, "xlg")),
+            AWS_BUCKET,
+            os.path.join(content_type,
+            filename_template.format(image_id, "xlg")),
+            extra_args={"ACL": "public-read", "ContentType": "image/png"}
+            )
+        # Remove from local since on S3
+        os.remove(os.path.join(UPLOAD_FOLDER, content_type,
+                  filename_template.format(image_id, "xlg")))
+    
+    os.remove(file)
+    
+    return (image_id, img_width)

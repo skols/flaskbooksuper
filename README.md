@@ -438,3 +438,6 @@
 
 
 # Section 5 - Lecture 60 - Feed Images - Model, Form, Views
+
+
+# Section 5 - Lecture 61 - Feed Images - Resizing, Templates
