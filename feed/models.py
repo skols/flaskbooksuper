@@ -43,7 +43,11 @@ class Message(db.Document):
     
     @property
     def comments(self):
-        return Message.objects.filter(parent=self.id).order_by("-create_date")
+        return Message.objects.filter(parent=self.id, message_type=COMMENT).order_by("create_date")
+    
+    @property
+    def likes(self):
+        return Message.objects.filter(parent=self.id, message_type=LIKE).order_by("-create_date")
     
     def post_imgsrc(self, image_ts, size):
         if AWS_BUCKET:
@@ -56,8 +60,8 @@ class Message(db.Document):
                            image_ts, size)))
     
     meta = {
-        "indexes": [("from_user", "to_user", "-create_date", "message_type",
-                    "live")]
+        "indexes": [("from_user", "to_user", "-create_date", "parent",
+                    "message_type","live")]
     }
 
 

@@ -36,15 +36,16 @@
         </div> <!-- row feed-message-comments -->
 
         <!-- comment text input -->
-        <div class="row feed-comment">
+        <div id="comment-form" class="row feed-comment">
           {% if error %}
           <div class="alert alert-danger" role="alert">{{ error }}</div>
           {% endif %}
-      
+
           {% from "_formhelpers.html" import render_field %}
-          <form method="POST" action="{{ url_for('feed_app.message', message_id=message.id)}}" role="form">
+          <form method="POST" action="{{ url_for('feed_app.message', message_id=message.id) }}" role="form">
       
-            {{ form.hidden_tag() }}
+            <!--{{ form.hidden_tag() }}-->
+            {{ form.csrf_token }}
       
             <div class="form-group">
               {{ form.post(class='form-control', rows=2) }}
