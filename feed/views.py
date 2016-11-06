@@ -21,7 +21,7 @@ def add_message():
     ref = request.referrer
     form = FeedPostForm()
     
-    if form.validate_on_submit():
+    if form.validate_on_submit() or request.method == "POST":
         # Process images
         post_images = []
         uploaded_files = request.files.getlist("images")
@@ -73,9 +73,9 @@ def add_message():
         else:
             return redirect(url_for("user_app.profile", username=from_user.username))
 
-    else:
-        # abort(500)
-        return "Error!"
+    # else:
+    #     # abort(500)
+    #     return "Error!"
 
 
 @feed_app.route("/message/<message_id>/", methods=["GET", "POST"])
