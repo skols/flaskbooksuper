@@ -10,6 +10,16 @@ from utilities.common import linkify, ms_stamp_humanize
 from settings import STATIC_IMAGE_URL, AWS_BUCKET, AWS_CONTENT_URL
 
 
+POST = 1
+COMMENT = 2
+LIKE=3
+
+MESSAGE_TYPE = (
+    (POST, "Post"),
+    (COMMENT, "Comment"),
+    (LIKE, "Like"),
+    )
+
 class Message(db.Document):
     from_user = db.ReferenceField(User, db_field="fu",
                                   reverse_delete_rule=CASCADE)
@@ -19,7 +29,9 @@ class Message(db.Document):
     live = db.BooleanField(db_field="l", default=None)
     create_date = db.LongField(db_field="c", default=now())
     parent = db.ObjectIdField(db_field="p", default=None)
-    images = db.ListField(db_field="ii", default=None)
+    images = db.ListField(db_field="ii")
+    message_type = db.IntField(db_field="mt", default=POST,
+                               choices=MESSAGE_TYPE)
     
     @property
     def text_linkify(self):
@@ -28,6 +40,10 @@ class Message(db.Document):
     @property
     def human_timestamp(self):
         return ms_stamp_humanize(self.create_date)
+    
+    @property
+    def comments(self):
+        return Message.objects.filter(parent=self.id).order_by("-create_date")
     
     def post_imgsrc(self, image_ts, size):
         if AWS_BUCKET:
@@ -40,7 +56,8 @@ class Message(db.Document):
                            image_ts, size)))
     
     meta = {
-        "indexes": [("from_user", "to_user", "-create_date", "parent", "live")]
+        "indexes": [("from_user", "to_user", "-create_date", "message_type",
+                    "live")]
     }
 
 
@@ -48,9 +65,8 @@ class Feed(db.Document):  # Representation of messages per user
     user = db.ReferenceField(User, db_field="u", reverse_delete_rule=CASCADE)
     message = db.ReferenceField(Message, db_field="m",
                                 reverse_delete_rule=CASCADE)
-    parent = db.ObjectIdField(db_field="p", default=None)
     create_date = db.LongField(db_field="c", default=now())
     
     meta = {
-        "indexes": [("user", "parent", "-create_date")]
+        "indexes": [("user", "-create_date")]
     }

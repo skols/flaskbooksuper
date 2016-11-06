@@ -10,7 +10,7 @@ class FeedPostForm(Form):
         render_kw={"multiple": True},
         validators=[
             FileAllowed(["jpg", "jpeg", "png", "gif"], "Only JPEG, PNG, and \
-                        Gifs allowed")
+                        GIFs allowed")
                         ]
         )
     post=StringField("Post",
