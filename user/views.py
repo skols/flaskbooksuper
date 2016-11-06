@@ -4,6 +4,7 @@ import bcrypt
 import uuid  # Very useful for unique strings
 import os
 from werkzeug import secure_filename
+from mongoengine import Q  # Q allows to do "or" queries in Mongo
 
 
 from user.models import User
@@ -15,6 +16,7 @@ from utilities.imaging import thumbnail_process
 from relationship.models import Relationship
 from user.decorators import login_required
 from feed.forms import FeedPostForm
+from feed.models import Message
 
 
 # Name of the module_app tells is a naming convention for Blueprint apps
@@ -82,11 +84,11 @@ def logout():
 
 
 # Use endpoint in url_for
-@user_app.route("/<username>/friends/<int:page>/",
+@user_app.route("/<username>/friends/<int:friends_page_number>/",
                 endpoint="profile-friends-page")
 @user_app.route("/<username>/friends/", endpoint="profile-friends")
 @user_app.route("/<username>/")
-def profile(username, page=1):
+def profile(username, friends_page_number=1):
     # Removed everything with edit_profile variable because it isn't needed
     logged_user = None
     rel = None
@@ -108,19 +110,25 @@ def profile(username, page=1):
         
         if "friends" in request.url:
             friends_page = True
-            friends = friends.paginate(page=page, per_page=3)
+            friends = friends.paginate(page=friends_page_number, per_page=3)
             # paginate is a mongoengine helper
         else:
             friends = friends[:5]
         
         form = FeedPostForm()
         
+        # Get user messages
+        profile_messages = Message.objects.filter(
+            Q(from_user=user) | Q(to_user=user)
+            ).order_by("-create_date")[:10]
+        
         return render_template("user/profile.html", user=user, rel=rel,
                                logged_user=logged_user,
                                friends=friends,
                                friends_total=friends_total,
                                friends_page=friends_page,
-                               form=form
+                               form=form,
+                               profile_messages=profile_messages,
                                )
 
     else:  # Don't find the user

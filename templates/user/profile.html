@@ -125,13 +125,13 @@
           
           <div class="col-md-6 pull-left"> <!-- col-md-6 pull-left -->
             {% if friends.has_prev %}
-              <a role="button" class="btn btn-primary" href="{{ url_for('.profile-friends-page', username=user.username, page=friends.prev_num) }}">Previous</a>
+              <a role="button" class="btn btn-primary" href="{{ url_for('.profile-friends-page', username=user.username, friends_page_number=friends.prev_num) }}">Previous</a>
             {% endif %}
           </div> <!-- col-md-6 pull-left -->
           
           <div class="col-md-6 pull-right"> <!-- col-md-6 pull-right -->
             {% if friends.has_next %}
-              <a class="btn btn-primary" href="{{ url_for('.profile-friends-page', username=user.username, page=friends.next_num) }}">Next</a>
+              <a class="btn btn-primary" href="{{ url_for('.profile-friends-page', username=user.username, friends_page_number=friends.next_num) }}">Next</a>
             {% endif %}
           </div> <!-- col-md-6 pull-right -->
           

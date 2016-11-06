@@ -429,3 +429,6 @@
 
 # Section 5 - Lecture 57 - Feed Message Template
     - Add Arrow==0.8.0 and bleach==1.4.3 to requirements.txt
+
+
+# Section 5 - Lecture 58 - Messages in Profile Views

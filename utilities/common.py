@@ -10,10 +10,10 @@ def utc_now_ts():
     return int(time.time())
 
 
-def ms_stamp_humanize():
+def ms_stamp_humanize(ts):
     ts = datetime.datetime.fromtimestamp(ts)
     return arrow.get(ts).humanize()
-
+    
 
 def linkify(text):
     text = bleach.clean(text, tags=[], attributes={}, styles=[], strip=True)
