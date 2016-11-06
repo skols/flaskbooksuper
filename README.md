@@ -441,3 +441,7 @@
 
 
 # Section 5 - Lecture 61 - Feed Images - Resizing, Templates
+
+
+# Section 5 - Lecture 62 - Feed Timestamp - Milliseconds
+   - Used a lambda function, which I need to research

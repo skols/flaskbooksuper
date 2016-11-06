@@ -4,7 +4,7 @@ import boto3
 from boto3.s3.transfer import S3Transfer
 
 
-from utilities.common import utc_now_ts as now
+from utilities.common import utc_now_ts as now, utc_now_ts_ms as now_ms
 from settings import UPLOAD_FOLDER, AWS_BUCKET
 
 
@@ -73,7 +73,7 @@ def crop_center(image):
 
 
 def image_height_transform(file, content_type, content_id, height=200):
-    image_id=now()
+    image_id=now_ms()()  # Because a lambda function
     filename_template = content_id + "{0}.{1}.png"
     
     # Original
