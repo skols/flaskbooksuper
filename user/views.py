@@ -14,6 +14,7 @@ from settings import UPLOAD_FOLDER
 from utilities.imaging import thumbnail_process
 from relationship.models import Relationship
 from user.decorators import login_required
+from feed.forms import FeedPostForm
 
 
 # Name of the module_app tells is a naming convention for Blueprint apps
@@ -112,11 +113,14 @@ def profile(username, page=1):
         else:
             friends = friends[:5]
         
+        form = FeedPostForm()
+        
         return render_template("user/profile.html", user=user, rel=rel,
                                logged_user=logged_user,
                                friends=friends,
                                friends_total=friends_total,
                                friends_page=friends_page,
+                               form=form
                                )
 
     else:  # Don't find the user
