@@ -117,3 +117,47 @@ class FeedTest(unittest.TestCase):
         assert "Test Post #2 User 1" in str(rv.data)
         assert "Test Post User 1 to User 2" in str(rv.data)
         
+        # Register user3
+        rv = self.app.post("/register/", data=self.user3_dict(),
+                           follow_redirects=True)
+        
+        # User3 make friends with user2
+        rv = self.app.get("/add_friend/" + self.user2_dict()["username"] + "/",
+                          follow_redirects=True)
+        
+        # Login user1
+        rv = self.app.post("/login/", data=dict(
+            username=self.user1_dict()["username"],
+            password=self.user1_dict()["password"],
+            ))
+        
+        # User1 block user3
+        rv = self.app.get("/block/" + self.user3_dict()["username"] + "/",
+                          follow_redirects=True)
+        
+        # Login user2
+        rv = self.app.post("/login/", data=dict(
+            username=self.user2_dict()["username"],
+            password=self.user2_dict()["password"],
+            ))
+        
+        # User2 confirm friends with user3
+        rv = self.app.get("/add_friend/" + self.user3_dict()["username"] + "/",
+                          follow_redirects=True)
+        
+        # User2 post a message to user3
+        rv = self.app.post("/message/add/", data=dict(
+            post="Test Post User 2 to User 3",
+            to_user=self.user3_dict()["username"],
+            ), follow_redirects=True)
+        
+        # Login user1
+        rv = self.app.post("/login/", data=dict(
+            username=self.user1_dict()["username"],
+            password=self.user1_dict()["password"],
+            ))
+        
+        # Check user1 doesn't see user2's post to user3 (user1 blocked user3)
+        rv = self.app.get("/")
+        assert "Test Post User 2 to User 3" not in str(rv.data)
+        
