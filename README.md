@@ -413,6 +413,8 @@
 
 
 # Section 5 - Lecture 52 - Introduction to the Fan Out pattern
+    - The main advantage of the Fan Out pattern is it allows users to control their feeds
+    - They have their own representation of the feed
 
 
 # Section 5 - Lecture 53 - The Feed Model
@@ -469,3 +471,6 @@
 
 
 # Section 5 - Lecture 70 - The New Homepage
+
+
+# Section 6 - Lecture 71 - Final Project
