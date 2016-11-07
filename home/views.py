@@ -27,4 +27,4 @@ def home():
                                feed_messages=feed_messages)
 
     else:
-        return "Welcome to Flaskbook!"
+        return render_template("home/home.html")
