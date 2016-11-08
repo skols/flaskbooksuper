@@ -21,8 +21,12 @@ def add_message():
     ref = request.referrer
     form = FeedPostForm()
     
-    # if form.validate_on_submit():  # Need to fix csrf token not working
-    if form.validate_on_submit() or request.method == "POST":
+    # if form.validate_on_submit() or request.method == "POST":
+    if form.validate_on_submit():
+        # For this to work, have to include text when uploading a picture
+        # It's because post in forms.py has DataRequired() as a validator
+        # At least I think that's why
+        
         # Process images
         post_images = []
         uploaded_files = request.files.getlist("images")
@@ -61,10 +65,10 @@ def add_message():
             images = []
             for file_path in post_images:
                 (image_ts, width) = image_height_transform(file_path, "posts",
-                                                           str(message.id))
+                                    str(message.id))
                 images.append({"ts": str(image_ts), "w": str(width)})
-                message.images = images
-                message.save()
+            message.images = images
+            message.save()
 
         # Process the message
         process_message(message)
