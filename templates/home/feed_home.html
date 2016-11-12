@@ -54,17 +54,13 @@
             
             <div class="col-md-6 pull-left"> <!-- col-md-6 pull-left -->
               {% if feed_messages.has_prev %}
-                <a role="button" class="btn btn-primary" href="{{ url_for('home_app.home', username=user.username, feed_page_num=feed_messages.prev_num) }}">Newer</a>
+                <a role="button" class="btn btn-primary" href="{{ url_for('home_app.feed-home-page', feed_page_num=feed_messages.prev_num) }}">Newer</a>
               {% endif %}
             </div> <!-- col-md-6 pull-left -->
-            <div id="pagination-links">
-                {% for page in feed_messages.iter_pages() %}
-                    {{ page }}
-                {% endfor %}
-            </div>
+            
             <div class="col-md-6 pull-right"> <!-- col-md-6 pull-right -->
               {% if feed_messages.has_next %}
-                <a class="btn btn-primary" href="{{ url_for('home_app.home', username=user.username, feed_page_num=feed_messages.next_num) }}">Older</a>
+                <a class="btn btn-primary" href="{{ url_for('home_app.feed-home-page', feed_page_num=feed_messages.next_num) }}">Older</a>
               {% endif %}
             </div> <!-- col-md-6 pull-right -->
             

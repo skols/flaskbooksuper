@@ -9,7 +9,7 @@ from feed.forms import FeedPostForm
 home_app = Blueprint("home_app", __name__)
 
 @home_app.route("/")
-@home_app.route("/<int:feed_page_num>/", endpoint="feed-home-page")
+@home_app.route("/feed/<int:feed_page_num>/", endpoint="feed-home-page")
 def home(feed_page_num=1):
     feed_messages_page = False
     
@@ -37,7 +37,11 @@ def home(feed_page_num=1):
         return render_template("home/feed_home.html",
                                user=user,
                                form=form,
-                               feed_messages=feed_messages)
+                               feed_messages_total=feed_messages_total,
+                               feed_messages=feed_messages,
+                               feed_messages_page=feed_messages_page,
+                               feed_page_num=feed_page_num,
+                               )
 
     else:
         return render_template("home/home.html")
