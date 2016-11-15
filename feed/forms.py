@@ -19,3 +19,4 @@ class FeedPostForm(Form):
             validators.DataRequired(),
             validators.Length(max=1024)]
     )
+

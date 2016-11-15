@@ -143,3 +143,40 @@ def like_message(message_id):
             ).save()
         
     return redirect(url_for("feed_app.message", message_id=message.id))
+
+
+@feed_app.route("/edit/<message_id>/", methods=('GET', 'POST'))
+@login_required
+def edit_message(message_id):
+    message = None
+    form = FeedPostForm(obj=message)
+    user = User.objects.filter(username=session.get("username")).first()
+    
+    message = Message.objects.filter(id=message_id).first()
+    if not message:
+        abort(404)
+    
+    if message and message.parent:
+        abort(404)
+    
+    if user:
+        # if form.validate_on_submit() and session.get("username"):
+        if form.validate_on_submit():
+            # Process post
+            # from_user = User.objects.get(username=session.get("username"))
+            post = form.post.data
+            form.populate_obj(message)
+            
+            # Edit the comment
+            comment = Message(
+                from_user=user,
+                text=post,
+                message_type=COMMENT,
+                parent=message_id,
+                ).save()
+            
+            return redirect(url_for("feed_app.message", message_id=message.id))
+
+        return render_template("feed/message.html", message=message, form=form)
+    else:
+        abort(404)
