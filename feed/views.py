@@ -78,9 +78,9 @@ def add_message():
         else:
             return redirect(url_for("home_app.home"))
 
-    # else:
-    #     # abort(500)
-    #     return "Error!"
+    else:
+        abort(500)
+        # return "Error!"
 
 
 @feed_app.route("/message/<message_id>/", methods=["GET", "POST"])
@@ -113,7 +113,7 @@ def message(message_id):
     return render_template("feed/message.html", message=message, form=form)
 
 
-@feed_app.route("/like/<message_id>/", methods=('GET', 'POST'))
+@feed_app.route("/like/<message_id>/", methods=['GET', 'POST'])
 @login_required
 def like_message(message_id):
     message = None
@@ -145,11 +145,10 @@ def like_message(message_id):
     return redirect(url_for("feed_app.message", message_id=message.id))
 
 
-@feed_app.route("/edit/<message_id>/", methods=('GET', 'POST'))
+@feed_app.route("/edit/<message_id>/", methods=['GET', 'POST'])
 @login_required
 def edit_message(message_id):
     message = None
-    form = FeedPostForm(obj=message)
     user = User.objects.filter(username=session.get("username")).first()
     
     message = Message.objects.filter(id=message_id).first()
@@ -160,7 +159,7 @@ def edit_message(message_id):
         abort(404)
     
     if user:
-        # if form.validate_on_submit() and session.get("username"):
+        form = FeedPostForm(obj=message)
         if form.validate_on_submit():
             # Process post
             # from_user = User.objects.get(username=session.get("username"))
@@ -177,6 +176,7 @@ def edit_message(message_id):
             
             return redirect(url_for("feed_app.message", message_id=message.id))
 
-        return render_template("feed/message.html", message=message, form=form)
+        return render_template("feed/message.html", message=message, form=form,
+                               action="edit")
     else:
         abort(404)
