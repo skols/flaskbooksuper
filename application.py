@@ -26,5 +26,8 @@ def create_app(**config_overrides):
     
     from home.views import home_app
     app.register_blueprint(home_app)
+
+    from mail.views import mail_app
+    app.register_blueprint(mail_app)
     
     return app
